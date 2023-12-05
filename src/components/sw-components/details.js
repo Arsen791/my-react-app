@@ -65,6 +65,7 @@ const PlanetDetails = ({ itemId }) => {
     )
 };
 
+
 export {
     PersonDetails,
     StarshipDetails,

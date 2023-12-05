@@ -1,58 +1,56 @@
 import React, {Component} from 'react';
+
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ErrorButton from '../error-button';
-import ErrorIndicator from "../error-indicator";
+
 import './app.css';
-import Row from "../row/row";
-import PeoplePage from "../people-page";
-import ItemList from "../item-list";
-import ItemDetails, {Record} from "../item-details/item-details";
-import SwapiService from "../../services/swapi-service";
+
 import ErrorBoundry from "../error-boundry";
-import {PersonList, PlanetList, StarshipList, PersonDetails, StarshipDetails, PlanetDetails} from "../sw-components";
+import SwapiService from "../../services/swapi-service";
 import DummySwapiService from "../../services/dummy-swapi-service";
 import {SwapiServiceProvider} from "../swapi-service-context";
+import {PeoplePage, PlanetsPage, StarshipsPage} from '../pages';
 
 
 export default class App extends Component{
-    swapiService = new DummySwapiService();
 
     state = {
         showRandomPlanet: true,
+        swapiService: new SwapiService()
     };
-    toggleRandomPlanet = () => {
-        this.setState((state)=> {
-            return { showRandomPlanet: !state.showRandomPlanet }
+
+    onServiceChange = () => {
+        this.setState( ({ swapiService }) => {
+            const Service = swapiService instanceof SwapiService
+                ? DummySwapiService : SwapiService;
+
+            return { swapiService: new Service() }
         })
     };
-    componentDidCatch() {
-        this.setState({ hasError: true });
-    }
+
+
+
+
+
     render() {
-
-
-
         return (
             <ErrorBoundry>
-                <SwapiServiceProvider value={this.swapiService}>
+                <SwapiServiceProvider value={this.state.swapiService}>
                     <div className='container-fluid'>
                         <div className="row">
                             <div className="col-12">
-                                <Header/>
+                                <Header onServiceChange={this.onServiceChange}/>
+                                <RandomPlanet />
                             </div>
                         </div>
 
-                        <PersonDetails itemId={11} />
-                        <StarshipDetails itemId={5} />
-                        <PlanetDetails itemId={9} />
+                        <PeoplePage />
+                        <PlanetsPage />
+                        <StarshipsPage />
 
-                        <PersonList />
-                        <StarshipList />
-                        <PlanetList />
                     </div>
                 </SwapiServiceProvider>
-        </ErrorBoundry>
+            </ErrorBoundry>
         );
     }
 };
