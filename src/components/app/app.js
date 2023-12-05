@@ -31,21 +31,6 @@ export default class App extends Component{
         if(this.state.hasError) return <ErrorIndicator />;
         const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
-        const { getPerson,
-            getStarship,
-            getPersonImage,
-            getStarshipImage,
-            getAllPeople,
-            getAllPlanets } = this.swapiService;
-
-        const personDetails = <ItemDetails
-            itemId={11}
-            getData={getPerson}
-            getImageUrl={getPersonImage}
-        >
-            <Record field="gender" label="Gender"/>
-            <Record field="eyeColor" label="Eye Color"/>
-        </ItemDetails>;
         const starshipDetails = <ItemDetails
             itemId={5}
             getData={getStarship}
@@ -66,19 +51,21 @@ export default class App extends Component{
                 </div>
 
 
-                <ItemList
-                    getData={getAllPeople}
-                    onItemSelected={() => {}}>
+                <PersonDetails itemId={11} />
+                    <StarshipDetails itemId={5} />
+                    <PlanetDetails itemId={9} />
 
-                    { ({name}) => <span>{name}</span> }
-                </ItemList>
+                    <PersonList>
+                        { ({name}) => <span>{name}</span> }
+                    </PersonList>
 
-                <ItemList
-                    getData={getAllPlanets}
-                    onItemSelected={() => {}}>
+                    <StarshipList>
+                        { ({name}) => <span>{name}</span> }
+                    </StarshipList>
 
-                    { ({name}) => <span>{name}</span> }
-                </ItemList>
+                    <PlanetList>
+                        { ({name}) => <span>{name}</span> }
+                    </PlanetList>
             </div>
         </ErrorBoundry>
         );

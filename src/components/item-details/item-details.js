@@ -53,7 +53,7 @@ export default class ItemDetails extends Component {
         if(!item)
             return <span>Select a item from a list.</span>;
 
-        const {id, name, gender, birthYear, eyeColor} = this.state.item;
+			const {name} = this.state.item;
 
         return (
             <div className="item-details card">
@@ -63,7 +63,7 @@ export default class ItemDetails extends Component {
                     <h4>{name}</h4>
                         <ul className="list-group list-group-flush">
                             {
-                                React.Children.map(this.props.children, (child, idx) => {
+                                React.Children.map(this.props.children, (child) => {
                                     return React.cloneElement(child, {item});
                                 })
                             }
